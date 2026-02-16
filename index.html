@@ -38,12 +38,38 @@
             font-style: italic;
         }
 
+        /* Container do botão de imagem com animação */
+        .image-button {
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 25px;
+            position: relative;
+            /* Animação suave e infinita */
+            animation: pulsar 3s ease-in-out infinite;
+        }
+
+        /* Define o movimento discreto */
+        @keyframes pulsar {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); } /* Aumenta só 3% */
+            100% { transform: scale(1); }
+        }
+
+        .image-button:hover {
+            animation-play-state: paused; /* Para de pulsar quando o mouse está em cima */
+            filter: brightness(1.05);
+        }
+
+        .image-button:active {
+            transform: scale(0.95) !important; /* Efeito de clique */
+        }
+
         img {
             width: 30vmax;
             max-width: 400px;
             height: auto;
             border-radius: 10px;
-            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         a {
@@ -52,28 +78,36 @@
             color: #e1306c;
             font-weight: bold;
             font-size: 1.1rem;
-            transition: opacity 0.3s;
-        }
-
-        a:hover {
-            opacity: 0.7;
         }
     </style>
 </head>
 <body>
 
+    <audio id="somGrilo">
+        <source src="grilo-mini.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="container">
         <h2>Stridullus</h2>
-        <div class="subtitle">Som e Movimento</div>
+        <div class="subtitle">Som e movimento</div>
         
-        <img src="./logo.png" alt="Logo Stridullus">
+        <!-- Botão com animação automática -->
+        <div class="image-button" onclick="tocarSom()" title="Clique para ouvir">
+            <img src="./logo.png" alt="Logo Stridullus">
+        </div>
 
-        <a href="http://instagram.com/stridullus" target="_blank">
+        <a href="http://instagram.com" target="_blank">
             @stridullus - Siga-nos no Instagram
         </a>
     </div>
 
+    <script>
+        function tocarSom() {
+            var audio = document.getElementById('somGrilo');
+            audio.currentTime = 0; 
+            audio.play();
+        }
+    </script>
+
 </body>
 </html>
-
-
