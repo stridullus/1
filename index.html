@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./img/grilo.ico" type="image/x-icon">
     <title>Stridullus</title>
+     <link rel="shortcut icon" href="./img/grilo.ico" type="image/x-icon">
     <style>
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -13,7 +13,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
+            background-color: #2a2828;
             color: #333;
         }
 
@@ -85,7 +85,7 @@
 <body>
 
     <audio id="somGrilo">
-        <source src="./som/grilo-mini.mp3" type="audio/mpeg">
+        <source src="./som/griloG.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container">
@@ -93,7 +93,7 @@
         <div class="subtitle">Som e movimento</div>
         
         <!-- Botão com animação automática -->
-        <div class="image-button" onclick="tocarSom()" title="Clique para ouvir">
+        <div class="image-button" id="btnAcionar" title="Clique para ouvir">
             <img src="./img/logo.png" alt="Logo Stridullus">
         </div>
 
@@ -103,18 +103,47 @@
     </div>
 
     <script>
+
+        const botao = document.getElementById('btnAcionar');
+
+
+          let contador = 0;
+
+        botao.addEventListener('click', () => {
+            // Sorteia de 1 a 6 repetições
+            const totalSorteado = Math.floor(Math.random() * 6) + 1;
+            contador = totalSorteado;
+            
+            // Sistema de Segurança: Bloqueia o botão imediatamente
+            botao.disabled = true;
+            // executarCiclo();
+            tocarSom();
+        });
+
         function tocarSom() {
-            var audio = document.getElementById('somGrilo');
-            audio.currentTime = 0; 
-            audio.play();
+              if (contador > 0) {
+                // display.innerText = `Repetições restantes: ${contador}`;
+                somGrilo.play().catch(e => {
+                    console.error("Erro ao tocar: Verifique se o arquivo está na pasta ./som/", e);
+                    resetarBotao();
+                });
+            } else {
+                resetarBotao();
+            }
         }
+
+        function resetarBotao() {
+            botao.disabled = false;
+            // display.innerText = "Finalizado! Pode tentar de novo.";
+
+        }
+
+        // Evento que vigia o fim de cada execução do MP3
+        somGrilo.onended = () => {
+            contador--;
+            tocarSom();
+        };
     </script>
 
 </body>
 </html>
-
-
-
-
-
-
